@@ -11,8 +11,9 @@ try {
 
   //$query = "SELECT * FROM wine where wine_name like '%". $wineName . "%'";
 
-  $query = "SELECT wine.wine_id, wine.wine_name AS wine, wine.year,winery.winery_name AS winery,
-                    region.region_name AS region,grape_variety.variety,inventory.cost AS cost,
+  $queryView = $pdo->prepare("CREATE TEMPORARY TABLE winestore AS SELECT wine.wine_id, wine.wine_name AS wine, 
+                    wine.year AS year,winery.winery_name AS winery, region.region_name AS region,
+                    grape_variety.variety AS variety,inventory.cost AS cost,
                     inventory.on_hand AS stock,
                     SUM(items.qty) AS sales, SUM(items.qty * items.price) AS revenue
             FROM wine,winery,region,grape_variety,wine_variety,inventory,items 
@@ -23,21 +24,81 @@ try {
                   AND wine.wine_id = inventory.wine_id
                   AND wine.wine_id = items.wine_id
                   GROUP BY wine.wine_id
-                  ORDER BY wine.wine_id asc";
+                  ORDER BY wine.wine_id asc");
+
+  $queryView->execute();
+
+  $queryResult = "SELECT * FROM winestore WHERE 1 ";
 
   //echo $query;  
-  if (isset($_GET['wineName'])) {
-  $wineName = $_GET['wineName'];
+  if (!empty($_GET['wine'])) {
+  $wine = $_GET['wine'];
+  $queryResult .= "AND wine like '%". $wine . "%' ";
 }
 
-if (isset($_GET['wineName'])) {
-  $wineName = $_GET['wineName'];
+if (!empty($_GET['winery'])) {
+  $winery = $_GET['winery'];
+  $queryResult .= "AND winery like '%". $winery . "%' ";
+
 }
+
+if (!empty($_GET['region'])) {
+  $region = $_GET['region'];
+  $queryResult .= "AND region like '%". $region . "%' ";
+
+}
+
+if (!empty($_GET['variety'])) {
+  $variety = $_GET['variety'];
+  $queryResult .= "AND variety like '%". $variety . "%' ";
+
+}
+
+if (!empty($_GET['from'])) {
+  $from = $_GET['from'];
+  $queryResult .= "AND year >=". $from . " ";
+
+}
+
+if (!empty($_GET['to'])) {
+  $to = $_GET['to'];
+  $queryResult .= "AND year <=". $to . " ";
+
+}
+
+if (!empty($_GET['minStock'])) {
+  $minStock = $_GET['minStock'];
+  $queryResult .= "AND stock >=". $minStock . " ";
+
+}
+
+if (!empty($_GET['minOrder'])) {
+  $minOrder = $_GET['minOrder'];
+  $queryResult .= "AND stock >=". $minOrder . " ";
+
+}
+
+if (!empty($_GET['min'])) {
+  $min = $_GET['min'];
+  $queryResult .= "AND cost >=". $min . " ";
+
+}
+
+if (!empty($_GET['max'])) {
+  $max = $_GET['max'];
+  $queryResult .= "AND cost <=". $max . " ";
+
+}
+
+echo "$queryResult";
+
+//echo "$queryResult";
+$result = $pdo->query($queryResult, PDO::FETCH_ASSOC);
+
   //die;
   //$result = $pdo->query($query);
 
  // also try PDO::FETCH_NUM, PDO::FETCH_ASSOC and PDO::FETCH_BOTH
- $result = $pdo->query($query, PDO::FETCH_ASSOC);
 
   // echo '<pre>';
   // print_r($result);

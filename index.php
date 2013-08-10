@@ -65,30 +65,30 @@ try {
 							<legend>Please one or more criterias to search.</legend>
 							<div class="form-group">
 								<label for="wineName">Wine Name</label>
-								<input type="text" class="form-control" id="wineName" name="wineName" placeholder="Enter wine name">	
+								<input type="text" class="form-control" id="wineName" name="wine" placeholder="Enter wine name">	
 							</div>
 							<div class="form-group">
 								<label for="wineryName">Winery Name</label>
-								<input type="text" class="form-control" id="wineryName" placeholder="Enter winery name">	
+								<input type="text" class="form-control" id="wineryName" name="winery"placeholder="Enter winery name">	
 							</div>
 							<div class="form-group">
 								<label for="wineRegion">Winery Region</label>
-								<select class="form-control" id="wineRegion">
-								  <option>Select a region</option>
+								<select class="form-control" id="wineRegion" name="region">
+								  <option value="">Select a region</option>
 								 <?php
 										foreach ($resultWineryRegion as $row) {
-											 echo '<option>'.$row[region_name].'</option>';
+											 echo '<option value="'.$row[region_name].'">'.$row[region_name].'</option>';
 										}
 								  ?>
 								</select>
 							</div>
 							<div class="form-group">
-								<label for="grapeVariety">Grape Rariety</label>
-								<select class="form-control" id="grapeVariety">
-								  <option>Select a grape variety</option>
+								<label for="grapeVariety">Grape Variety</label>
+								<select class="form-control" id="grapeVariety" name="variety">
+								  <option value="">Select a grape variety</option>
 								  <?php
 										foreach ($resultGrapeVariety as $row) {
-											 echo '<option>'.$row[variety].'</option>';
+											 echo '<option value"'.$row[variety].'">'.$row[variety].'</option>';
 										}
 								  ?>
 								</select>
@@ -97,21 +97,21 @@ try {
 								<label>Year Range</label>
 								<div class="row">
 									<div class="col-lg-3">
-										<select class="form-control" >
-										  <option>From</option>
+										<select class="form-control" id="yearFrom" name="from" >
+										  <option value="">From</option>
 										  <?php
-										    foreach ($resultWineYear as $row) {
-											    echo '<option value="'.$row[0].'">'.$row[0].'</option>';
+										    foreach ($resultWineYear as $from) {
+											    echo '<option value="'.$from[year].'">'.$from[year].'</option>';
 											}
 										  ?>
 										</select>
 									</div>
 									<div class="col-lg-3">
-										<select class="form-control">
-										  <option value="none">To</option>
+										<select class="form-control" id="yearTo" name="to">
+										  <option value="">To</option>
 										  <?php
-										    foreach ($resultWineYear2 as $row) {
-											    echo '<option value="'.$row[0].'">'.$row[0].'</option>';
+										    foreach ($resultWineYear2 as $to) {
+											    echo '<option value="'.$to[year].'">'.$to[year].'</option>';
 											}
 										  ?>
 										</select>
@@ -138,25 +138,25 @@ try {
 								<label>Cost Range (Per Wine)</label>
 								<div class="row">
 									<div class="col-lg-3">
-										<select class="form-control">
-										  <option>Min</option>
-										  <option>5</option>
-										  <option>10</option>
-										  <option>15</option>
-										  <option>20</option>
-										  <option>25</option>
-										  <option>30</option>
+										<select class="form-control" name="min">
+										  <option value="">Min</option>
+										  <option value="5">5</option>
+										  <option value="10">10</option>
+										  <option value="15">15</option>
+										  <option value="20">20</option>
+										  <option value="25">25</option>
+										  <option value="30">30</option>
 										</select>
 									</div>
 									<div class="col-lg-3">
-										<select class="form-control">
-										  <option>Max</option>
-										  <option>5</option>
-										  <option>10</option>
-										  <option>15</option>
-										  <option>20</option>
-										  <option>25</option>
-										  <option>30</option>
+										<select class="form-control" name="max">
+										  <option value="">Max</option>
+										  <option value="5">5</option>
+										  <option value="10">10</option>
+										  <option value="15">15</option>
+										  <option value="20">20</option>
+										  <option value="25">25</option>
+										  <option value="30">30</option>
 										</select>
 									</div>
 								</div>
