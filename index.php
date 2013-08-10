@@ -1,8 +1,6 @@
 <?php
 require_once('db.php');
 
-
-
 try {
   $pdo = new PDO($dsn, DB_USER, DB_PW);
 
@@ -14,8 +12,8 @@ try {
   $queryGrapeVariety = 'SELECT DISTINCT variety FROM grape_variety ORDER BY variety asc';
   //$queryCost = 'SELECT DISTINCT '
 
-  echo $queryWineYear;
-  echo $queryGrapeVariety;
+  //echo $queryWineYear;
+  //echo $queryGrapeVariety;
 
 
  // also try PDO::FETCH_NUM, PDO::FETCH_ASSOC and PDO::FETCH_BOTH
@@ -103,43 +101,62 @@ try {
 										  <option>From</option>
 										  <?php
 										    foreach ($resultWineYear as $row) {
-											    echo '<option>'.$row[0].'</option>';
+											    echo '<option value="'.$row[0].'">'.$row[0].'</option>';
 											}
 										  ?>
 										</select>
 									</div>
 									<div class="col-lg-3">
 										<select class="form-control">
-										  <option>To</option>
+										  <option value="none">To</option>
 										  <?php
 										    foreach ($resultWineYear2 as $row) {
-											    echo '<option>'.$row[0].'</option>';
+											    echo '<option value="'.$row[0].'">'.$row[0].'</option>';
 											}
 										  ?>
-										  <option>5</option>
 										</select>
 									</div>
 								</div>
 							</div>
 							<div class="form-group">
-								<label>Cost Range</label>
+                            	<label for="minStock">A minimum number of wines in stock, per wine</label>
+                            	<div class="row">
+ 									<div class="col-lg-3">
+ 										<input type="number" class="form-control" id="minStock" name="minStock" min="0">
+ 									</div>
+                            	</div>
+							</div>
+							<div class="form-group">
+                            	<label for="minOrder">A minimum number of wines ordered, per wine</label>
+                            	<div class="row">
+ 									<div class="col-lg-3">
+ 										<input type="number" class="form-control" id="minOrder" name="minOrder" min="0">
+ 									</div>
+                            	</div>
+							</div>
+							<div class="form-group">
+								<label>Cost Range (Per Wine)</label>
 								<div class="row">
 									<div class="col-lg-3">
 										<select class="form-control">
-										  <option>Lower bound</option>
-										  <option>2</option>
-										  <option>3</option>
-										  <option>4</option>
+										  <option>Min</option>
 										  <option>5</option>
+										  <option>10</option>
+										  <option>15</option>
+										  <option>20</option>
+										  <option>25</option>
+										  <option>30</option>
 										</select>
 									</div>
 									<div class="col-lg-3">
 										<select class="form-control">
-										  <option>Upper bound</option>
-										  <option>2</option>
-										  <option>3</option>
-										  <option>4</option>
+										  <option>Max</option>
 										  <option>5</option>
+										  <option>10</option>
+										  <option>15</option>
+										  <option>20</option>
+										  <option>25</option>
+										  <option>30</option>
 										</select>
 									</div>
 								</div>
