@@ -33,45 +33,37 @@
 								<label for="wineRegion">Winery Region</label>
 								<select class="form-control" id="wineRegion" name="region">
 								  <option value="">Select a region</option>
-								 <?php
-										foreach ($resultWineryRegion as $row) {
-											 echo '<option value="'.$row[region_name].'">'.$row[region_name].'</option>';
-										}
-								  ?>
-								</select>
+									  <!-- $BeginBlock Region -->									  	
+									  	<option value="${region}">${region}</option>
+									  <!-- $EndBlock Region -->
+								  </select>
 							</div>
 							<div class="form-group">
 								<label for="grapeVariety">Grape Variety</label>
 								<select class="form-control" id="grapeVariety" name="variety">
 								  <option value="">Select a grape variety</option>
-								  <?php
-										foreach ($resultGrapeVariety as $row) {
-											 echo '<option value"'.$row[variety].'">'.$row[variety].'</option>';
-										}
-								  ?>
+								  	<!-- $BeginBlock Variety -->									  	
+									  	<option value="${variety}">${variety}</option>
+									<!-- $EndBlock Variety -->
 								</select>
 							</div>
 							<div class="form-group">
 								<label>Year Range</label>
 								<div class="row">
 									<div class="col-lg-3">
-										<select class="form-control" id="yearFrom" name="from" >
+										<select class="form-control" id="yearFom" name="from" >
 										  <option value="">From</option>
-										  <?php
-										    foreach ($resultWineYear as $from) {
-											    echo '<option value="'.$from[year].'">'.$from[year].'</option>';
-											}
-										  ?>
+										  	<!-- $BeginBlock yearFrom -->									  	
+									  			<option value="${yearFrom}">${yearFrom}</option>
+									  		<!-- $EndBlock yearFrom -->
 										</select>
 									</div>
 									<div class="col-lg-3">
 										<select class="form-control" id="yearTo" name="to">
 										  <option value="">To</option>
-										  <?php
-										    foreach ($resultWineYear2 as $to) {
-											    echo '<option value="'.$to[year].'">'.$to[year].'</option>';
-											}
-										  ?>
+										  	<!-- $BeginBlock yearTo -->									  	
+									  			<option value="${yearTo}">${yearTo}</option>
+									  		<!-- $EndBlock yearTo -->
 										</select>
 									</div>
 								</div>
