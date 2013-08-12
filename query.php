@@ -1,7 +1,11 @@
 <?php
 
 require_once('db.php');
+require_once ("MiniTemplator.class.php");
 
+$t =  new MiniTemplator;
+$ok = $t->readTemplateFromFile("result.html");
+   if (!$ok) die ("MiniTemplator.readTemplateFromFile failed.");
 
 try {
   $pdo = new PDO($dsn, DB_USER, DB_PW);
@@ -94,6 +98,20 @@ echo "$queryResult";
 //echo "$queryResult";
 $result = $pdo->query($queryResult, PDO::FETCH_ASSOC);
 
+
+$i = 0;
+foreach ($result as $row) {
+    foreach ($row as $cell) {
+    $t->setVariable ("cell",$cell);
+    $t->addBlock("Cell");
+    }
+  $i++;
+  $t->setVariable("i",$i);
+  $t->addBlock("Row");
+}
+$t->generateOutput(); 
+
+
   //die;
   //$result = $pdo->query($query);
 
@@ -118,57 +136,3 @@ $result = $pdo->query($queryResult, PDO::FETCH_ASSOC);
 }
 
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-
-    <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
-    Remove this if you use the .htaccess -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Winestore Database System</title>
-    <meta name="viewport" content="width=device-width; initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    
-  </head>
-
-  <body>
-    <div class="container">
-      <div class="row">
-        <h3>Search Result</h3>
-        <table class="table table-bordered table-hover">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Wine id</th>
-              <th>Wine Name</th>
-              <th>year</th>
-              <th>Winery Name</th>
-              <th>Region</th>
-              <th>Grape Variety</th>
-              <th>Cost (dol/btl)</th>
-              <th>Stock in Total (btl)</th>
-              <th>Sales in Total (btl)</th>
-              <th>Total Sales Revenue (dol)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-              $i = 1;
-              foreach ($result as $row) {
-                  echo '<tr>';
-                  echo '<td>'.$i.'</td>';
-                foreach ($row as $cell) {
-                  echo '<td>'.$cell.'</td>';
-                }
-                  echo '</tr>';
-              $i++;
-              }     
-            ?>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </body>
-</html>
