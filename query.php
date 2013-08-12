@@ -31,21 +31,20 @@ try {
   $queryResult = "SELECT * FROM winestore WHERE 1 ";
 
   //echo $query;  
-  if (!empty($_GET['wine'])) {
+  if (isset($_GET['wine']) && !empty($_GET['wine'])) {
   $wine = $_GET['wine'];
   $queryResult .= "AND wine like '%". $wine . "%' ";
 }
 
-if (!empty($_GET['winery'])) {
+if (isset($_GET['winery']) && !empty($_GET['winery'])) {
   $winery = $_GET['winery'];
   $queryResult .= "AND winery like '%". $winery . "%' ";
 
 }
 
-if (!empty($_GET['region'])) {
+if (!empty($_GET['region']) && !$_GET['region']=="ALL") {
   $region = $_GET['region'];
   $queryResult .= "AND region like '%". $region . "%' ";
-
 }
 
 if (!empty($_GET['variety'])) {
