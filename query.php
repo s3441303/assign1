@@ -46,9 +46,14 @@ if (isset($_GET['winery']) && !empty($_GET['winery'])) {
 
 }
 
-if (!empty($_GET['region']) && !$_GET['region']=="ALL") {
-  $region = $_GET['region'];
+if (isset($_GET['region']) && !empty($_GET['region'])){
+  if (trim($_GET['region']) == "All") {
+    $region = "";
+  }else{
+    $region = $_GET['region'];
+  }
   $queryResult .= "AND region like '%". $region . "%' ";
+ 
 }
 
 if (!empty($_GET['variety'])) {
