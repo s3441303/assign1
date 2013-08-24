@@ -1,11 +1,21 @@
 <?php
 
+if(isset($_GET['sessionStart'])){
+  session_start();
+  if (!array_key_exists('searchedWine',$_SESSION) && empty($_SESSION['searchedWine'])) {
+     $_SESSION['searchedWine'] = array();
+  }
+
+}
+if(isset($_GET['sessionEnd'])) {
+  //echo "true";
+  session_start();
+  session_destroy();
+  header("Location: index.php");
+}
+
 require_once('db.php');
 require_once ("MiniTemplator.class.php");
-
-$t =  new MiniTemplator;
-$ok = $t->readTemplateFromFile("result.html");
-   if (!$ok) die ("MiniTemplator.readTemplateFromFile failed.");
 
 try {
   $pdo = new PDO($dsn, DB_USER, DB_PW);
@@ -15,7 +25,7 @@ try {
 
   //$query = "SELECT * FROM wine where wine_name like '%". $wineName . "%'";
 
-  $queryView = $pdo->prepare("CREATE TEMPORARY TABLE winestore AS SELECT wine.wine_id, wine.wine_name AS wine, 
+  $queryView = $pdo->prepare("CREATE TEMPORARY TABLE winestore AS SELECT wine.wine_name AS wine, 
                     wine.year AS year,winery.winery_name AS winery, region.region_name AS region,
                     grape_variety.variety AS variety,inventory.cost AS cost,
                     inventory.on_hand AS stock,
@@ -37,6 +47,7 @@ try {
   //echo $query;  
   if (isset($_GET['wine']) && !empty($_GET['wine'])) {
   $wine = $_GET['wine'];
+  array_push($_SESSION['searchedWine'], $_GET['wine']);
   $queryResult .= "AND wine like '%". $wine . "%' ";
 }
 
@@ -98,23 +109,44 @@ if (!empty($_GET['max'])) {
 
 }
 
-echo "$queryResult";
+
+
+//echo "$queryResult";
+//session_destroy();
 
 //echo "$queryResult";
 $result = $pdo->query($queryResult, PDO::FETCH_ASSOC);
 
 
+$t =  new MiniTemplator;
+$ok = $t->readTemplateFromFile("result.html");
+   if (!$ok) die ("MiniTemplator.readTemplateFromFile failed.");
+
 $i = 0;
 foreach ($result as $row) {
+    $tweetMessage .= $row['wine']." ";
     foreach ($row as $cell) {
-    $t->setVariable ("cell",$cell);
-    $t->addBlock("Cell");
+      $t->setVariable ("cell",$cell);
+      $t->addBlock("Cell");
     }
   $i++;
   $t->setVariable("i",$i);
   $t->addBlock("Row");
 }
+
+foreach ($_SESSION['searchedWine'] as $searchedWine) {
+  $t->setVariable ("searchedWine",$searchedWine);
+  $t->addBlock("searchedWine");
+
+}
+$t->setVariable ("tweetMessage",$tweetMessage);
 $t->generateOutput(); 
+
+// if(isset($_GET['sessionEnd'])) {
+//   echo "true";
+//   session_destroy();
+// }
+//session_destroy();
 
 
   //die;
@@ -139,5 +171,6 @@ $t->generateOutput();
   echo $e->getMessage();
   exit;
 }
+
 
 ?>

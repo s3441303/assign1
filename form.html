@@ -7,7 +7,7 @@
 		Remove this if you use the .htaccess -->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<title>Winestore Database System</title>
-		<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 		
 	</head>
@@ -20,7 +20,14 @@
 					<br />
 					<form class="well" action="query.php" method="GET">
 						<fieldset>
-							<legend>Please one or more criterias to search.</legend>
+							<div class="row">
+								<div class="col-lg-10">
+									<legend>Please one or more criterias to search.</legend>
+								</div>	
+								<div class="col-lg-2">
+									<button type="button" id="startSession" class="pull-right btn btn-primary btn-small">Start session</button>
+								</div>								
+							</div>
 							<div class="form-group">
 								<label for="wineName">Wine Name</label>
 								<input type="text" class="form-control" id="wineName" name="wine" placeholder="Enter wine name">	
@@ -37,7 +44,7 @@
 									  	<option value="${region}">${region}</option>
 									  <!-- $EndBlock Region -->
 								  </select>
-							</div>
+							</div> 
 							<div class="form-group">
 								<label for="grapeVariety">Grape Variety</label>
 								<select class="form-control" id="grapeVariety" name="variety">
@@ -112,8 +119,8 @@
 								</div>
 							</div>
 							<div class="pull-right">
-								<button type="submit" class="btn btn-success btn-lg">Search</button>
-								<button type="button" class="btn btn-danger btn-lg">Clear</button>
+								<button type="submit" id="searchButton" class="btn btn-success btn-large">Search</button>
+								<button type="button" class="btn btn-danger btn-large">Clear</button>
 							</div>
 						</fieldset>
 					</form>
@@ -129,4 +136,6 @@
 	</body>
 	<script src="http://code.jquery.com/jquery.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script src="js/myscript.js"></script>
+
 </html>

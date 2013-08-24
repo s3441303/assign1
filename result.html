@@ -7,42 +7,70 @@
     Remove this if you use the .htaccess -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>Winestore Database System</title>
-    <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    
+    <link rel="stylesheet" type="text/css" href="css/mystyle.css">
   </head>
 
   <body>
     <div class="container">
       <div class="row">
-        <h3>Search Result</h3>
-        <table class="table table-bordered table-hover">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Wine id</th>
-              <th>Wine Name</th>
-              <th>year</th>
-              <th>Winery Name</th>
-              <th>Region</th>
-              <th>Grape Variety</th>
-              <th>Cost (dol/btl)</th>
-              <th>Stock in Total (btl)</th>
-              <th>Sales in Total (btl)</th>
-              <th>Total Sales Revenue (dol)</th>
-            </tr>
-          </thead>
-          <tbody>
-       			 <!-- $BeginBlock Row -->	
-                 <tr>
-	                 <td>${i}</td>
-	                 <!-- $BeginBlock Cell -->	
-	                 	<td>${cell}</td>
-	                <!-- $EndBlock Cell -->
-                 </tr>
-                 <!-- $EndBlock Row -->
-          </tbody>
-        </table>
+        <div class="col-lg-10">
+            <div class="row">          
+              <div class="col-lg-8">
+                <h3>Search Result</h3>
+              </div>
+              <div class="col-lg-2">
+                <form action="query.php" method="GET">
+                  <button type="submit" id="sessionEnd" class="pull-right btn btn-danger" name="sessionEnd" >Close session</button>
+                </form>
+              </div>
+              <div class="col-lg-2">  
+                <form action="twitter.php?" method="GET">
+              <button type="submit" id="sendTwitter" class="pull-right btn btn-info" name="sendTwitter" value="${tweetMessage}">Send to Twitter</button>
+                </form>  
+              </div>
+            </div>
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Wine Name</th>
+                <th>year</th>
+                <th>Winery Name</th>
+                <th>Region</th>
+                <th>Grape Variety</th>
+                <th>Cost (p.w)</th>
+                <th>Stock Available</th>
+                <th>Total Sales</th>
+                <th>Total Sales Revenue</th>
+              </tr>
+            </thead>
+            <tbody>
+         			 <!-- $BeginBlock Row -->	
+                   <tr>
+  	                 <td>${i}</td>
+  	                 <!-- $BeginBlock Cell -->	
+  	                 	<td>${cell}</td>
+  	                 <!-- $EndBlock Cell -->
+                   </tr>
+               <!-- $EndBlock Row -->
+            </tbody>
+          </table>
+        </div>
+        <div class="col-lg-2">
+          <h5>Recently searched wines</h5>
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr><th>Winery Name</th></tr>
+            </thead>
+              <tbody>
+              <!-- $BeginBlock SearchedWine -->
+              <tr><td>${searchedWine}</td></tr>
+              <!-- $EndBlock SearchedWine -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </body>

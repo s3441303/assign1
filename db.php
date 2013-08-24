@@ -9,7 +9,6 @@ $databaseName = DB_NAME;
 $hostName = DB_HOST;
 $dsn = "mysql:dbname=$databaseName;host=$hostName;port=80";
 
-
 ?>
 
 
