@@ -2,8 +2,9 @@
 
 if(isset($_GET['sessionStart'])){
   session_start();
-  if (!array_key_exists('searchedWine',$_SESSION) && empty($_SESSION['searchedWine'])) {
-     $_SESSION['searchedWine'] = array();
+  if (!array_key_exists('viewedWines',$_SESSION) && empty($_SESSION['viewedWines'])) {
+     $_SESSION['viewedWines'] = array();
+     //$searchedWineList = array();
   }
 
 }
@@ -47,7 +48,6 @@ try {
   //echo $query;  
   if (isset($_GET['wine']) && !empty($_GET['wine'])) {
   $wine = $_GET['wine'];
-  array_push($_SESSION['searchedWine'], $_GET['wine']);
   $queryResult .= "AND wine like '%". $wine . "%' ";
 }
 
@@ -73,15 +73,15 @@ if (!empty($_GET['variety'])) {
 
 }
 
-if (!empty($_GET['from'])) {
-  $from = $_GET['from'];
-  $queryResult .= "AND year >=". $from . " ";
+if (!empty($_GET['yearFrom'])) {
+  $yearFrom = $_GET['yearFrom'];
+  $queryResult .= "AND year >=". $yearFrom . " ";
 
 }
 
-if (!empty($_GET['to'])) {
-  $to = $_GET['to'];
-  $queryResult .= "AND year <=". $to . " ";
+if (!empty($_GET['yearTo'])) {
+  $yearTo = $_GET['yearTo'];
+  $queryResult .= "AND year <=". $yearTo . " ";
 
 }
 
@@ -97,15 +97,15 @@ if (!empty($_GET['minOrder'])) {
 
 }
 
-if (!empty($_GET['min'])) {
-  $min = $_GET['min'];
-  $queryResult .= "AND cost >=". $min . " ";
+if (!empty($_GET['minCost'])) {
+  $minCost = $_GET['minCost'];
+  $queryResult .= "AND cost >=". $minCost . " ";
 
 }
 
-if (!empty($_GET['max'])) {
-  $max = $_GET['max'];
-  $queryResult .= "AND cost <=". $max . " ";
+if (!empty($_GET['maxCost'])) {
+  $maxCost = $_GET['maxCost'];
+  $queryResult .= "AND cost <=". $maxCost . " ";
 
 }
 
@@ -117,36 +117,66 @@ if (!empty($_GET['max'])) {
 //echo "$queryResult";
 $result = $pdo->query($queryResult, PDO::FETCH_ASSOC);
 
+if (!!empty($result)) {
+  echo "can't find any matched wines";
+  exit;
+}
 
 $t =  new MiniTemplator;
 $ok = $t->readTemplateFromFile("result.html");
    if (!$ok) die ("MiniTemplator.readTemplateFromFile failed.");
 
 $i = 0;
+$searchedWineList = array();
 foreach ($result as $row) {
-    $tweetMessage .= $row['wine']." ";
-    foreach ($row as $cell) {
+        //$tweetMessage .= $row['wine']." ";
+    foreach ($row as $key => $cell) {
+            switch ($key) {
+        case 'wine':
+          array_push($searchedWineList, $cell);
+          break;
+        case 'cost':
+          setlocale(LC_MONETARY, 'en_AU');
+          $cell = money_format('%n', $cell);
+          break;
+        case 'sales':
+          $cell = number_format($cell);
+          break;
+        case 'revenue':
+          $cell = money_format('%n', $cell);
+          break;
+
+      }
+
+      // if ($key == "wine") {
+      // //echo $key. "=>". $cell;
+      // array_push($searchedWineList, $cell);
+      // }
+      // if ($key == "cost") {
+      //   setlocale(LC_MONETARY, 'en_AU');
+      //   $cell = money_format('%i', $cell);
+      // }
       $t->setVariable ("cell",$cell);
       $t->addBlock("Cell");
     }
-  $i++;
+    
+    $i++;
   $t->setVariable("i",$i);
   $t->addBlock("Row");
 }
 
-foreach ($_SESSION['searchedWine'] as $searchedWine) {
-  $t->setVariable ("searchedWine",$searchedWine);
-  $t->addBlock("searchedWine");
+array_push($_SESSION['viewedWines'], $searchedWineList);
 
+$searchCount = count($_SESSION['viewedWines']) - 1;
+
+for ($j=0; $j <= $searchCount; $j++) { 
+      $t->setVariable("j",$j+1);
+      $t->addBlock("searchCount");
 }
-$t->setVariable ("tweetMessage",$tweetMessage);
+
 $t->generateOutput(); 
 
-// if(isset($_GET['sessionEnd'])) {
-//   echo "true";
-//   session_destroy();
-// }
-//session_destroy();
+
 
 
   //die;

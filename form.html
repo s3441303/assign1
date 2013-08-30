@@ -26,6 +26,7 @@
 								</div>	
 								<div class="col-lg-2">
 									<button type="button" id="startSession" class="pull-right btn btn-primary btn-small">Start session</button>
+									<button type="button" id="endSession" class="pull-right btn btn-primary btn-small hidden">session</button>
 								</div>								
 							</div>
 							<div class="form-group">
@@ -58,7 +59,7 @@
 								<label>Year Range</label>
 								<div class="row">
 									<div class="col-lg-3">
-										<select class="form-control" id="yearFom" name="from" >
+										<select class="form-control" id="yearFom" name="yearFrom" >
 										  <option value="">From</option>
 										  	<!-- $BeginBlock yearFrom -->									  	
 									  			<option value="${yearFrom}">${yearFrom}</option>
@@ -66,7 +67,7 @@
 										</select>
 									</div>
 									<div class="col-lg-3">
-										<select class="form-control" id="yearTo" name="to">
+										<select class="form-control" id="yearTo" name="yearTo">
 										  <option value="">To</option>
 										  	<!-- $BeginBlock yearTo -->									  	
 									  			<option value="${yearTo}">${yearTo}</option>
@@ -95,7 +96,7 @@
 								<label>Cost Range (Per Wine)</label>
 								<div class="row">
 									<div class="col-lg-3">
-										<select class="form-control" name="min">
+										<select class="form-control" name="minCost">
 										  <option value="">Min</option>
 										  <option value="5">5</option>
 										  <option value="10">10</option>
@@ -106,7 +107,7 @@
 										</select>
 									</div>
 									<div class="col-lg-3">
-										<select class="form-control" name="max">
+										<select class="form-control" name="maxCost">
 										  <option value="">Max</option>
 										  <option value="5">5</option>
 										  <option value="10">10</option>

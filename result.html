@@ -59,19 +59,26 @@
           </table>
         </div>
         <div class="col-lg-2">
-          <h5>Recently searched wines</h5>
+          <div class="form-group">
+                <select class="form-control" id="previousSearch">
+                  <option value="">Previous Search</option>
+                      <!-- $BeginBlock searchCount -->
+                      <option value="${j}">No.${j}</option>
+                      <!-- $EndBlock searchCount -->
+                  </select>
+          </div>
           <table class="table table-bordered table-hover">
             <thead>
-              <tr><th>Winery Name</th></tr>
+              <tr><th>Wine Name</th></tr>
             </thead>
-              <tbody>
-              <!-- $BeginBlock SearchedWine -->
-              <tr><td>${searchedWine}</td></tr>
-              <!-- $EndBlock SearchedWine -->
+            <tbody id="viewedWine">
             </tbody>
           </table>
         </div>
       </div>
     </div>
   </body>
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/myscript.js"></script>
 </html>

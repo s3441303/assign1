@@ -6,3 +6,14 @@ $(function(){
 		e.preventDefault();
 	});
 });
+
+$('#previousSearch').on('change',function(){
+	var index = $(this).val();
+	$.ajax({
+	  url: "viewedWine.php",
+	  type: "GET",
+	  data: {id : index}
+	}).done(function(res) {
+		$('#viewedWine').html(res);
+	});
+});
