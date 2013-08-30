@@ -117,11 +117,6 @@ if (!empty($_GET['maxCost'])) {
 //echo "$queryResult";
 $result = $pdo->query($queryResult, PDO::FETCH_ASSOC);
 
-if (!!empty($result)) {
-  echo "can't find any matched wines";
-  exit;
-}
-
 $t =  new MiniTemplator;
 $ok = $t->readTemplateFromFile("result.html");
    if (!$ok) die ("MiniTemplator.readTemplateFromFile failed.");
@@ -129,7 +124,6 @@ $ok = $t->readTemplateFromFile("result.html");
 $i = 0;
 $searchedWineList = array();
 foreach ($result as $row) {
-        //$tweetMessage .= $row['wine']." ";
     foreach ($row as $key => $cell) {
             switch ($key) {
         case 'wine':
